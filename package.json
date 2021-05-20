@@ -1,0 +1,19 @@
+{
+  "name": "first",
+  "version": "1.0.0",
+  "description": "A Node.js RESTFul API Tutorial Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Ayustark",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
