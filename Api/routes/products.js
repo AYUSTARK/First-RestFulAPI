@@ -6,7 +6,6 @@ router.get("", (req, res, next) => {
         "message": "Handling Get Requests to /products"
     })
 })
-
 router.post("", (req, res, next) => {
     res.status(250).json({
         "message": "Handling Post Requests to /products"
