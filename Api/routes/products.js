@@ -7,8 +7,13 @@ router.get("", (req, res, next) => {
     })
 })
 router.post("", (req, res, next) => {
+    const product = {
+        phone: req.body.phone,
+        name: req.body.name
+    }
     res.status(250).json({
-        "message": "Handling Post Requests to /products"
+        "message": "Handling Post Requests to /products",
+        "json": product
     })
 })
 
