@@ -4,21 +4,24 @@ const mor = require("morgan")
 const bParser = require("body-parser")
 const mongoose = require("mongoose")
 
-
-
 //Routes to handle requests
 const productsRoute = require("./Api/routes/products");
 const ordersRoute = require("./Api/routes/orders");
+// const pass = "apistorm"
+mongoose.connect("mongodb+srv://Storm:apistorm@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 
 app.use(mor("dev"))
-app.use(bParser.urlencoded({extended:false}))
+app.use(bParser.urlencoded({extended: false}))
 app.use(bParser.json())
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin","*")
-    res.header("Access-Control-Allow-Headers","Content-Type, Authorization")
-    if(req.method === "OPTIONS"){
-        res.header("Access-Control-Allow-Methods","PUT, PATCH, DELETE, POST, GET")
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "PUT, PATCH, DELETE, POST, GET")
         return res.status(200).json({})
     }
     next()
@@ -37,7 +40,7 @@ app.use((req, res, next) => {
     })*/
 })
 
-app.use((error,req, res, next) => {
+app.use((error, req, res, next) => {
     res.status(error.status || 500)
     res.json({
         "error": error.message
