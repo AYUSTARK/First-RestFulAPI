@@ -20,9 +20,10 @@ router.post("", (req, res, next) => {
             data: order
         })
     }else {
-        const error = new Error("Product Id, Not Present")
-        error.status = 300
-        next(error)
+        res.status(300).json({
+            "status": 300,
+            "message": "Product Id, Not Present"
+        })
     }
 })
 

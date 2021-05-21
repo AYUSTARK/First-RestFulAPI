@@ -8,7 +8,7 @@ const mongoose = require("mongoose")
 const productsRoute = require("./Api/routes/products");
 const ordersRoute = require("./Api/routes/orders");
 // const pass = "apistorm"
-mongoose.connect("mongodb+srv://Storm:apistorm@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://Storm:"+process.env.mongoPass+"@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
