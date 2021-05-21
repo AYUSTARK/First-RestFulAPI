@@ -3,14 +3,26 @@ const router = express.Router()
 const ProductS = require("../models/products")
 const mongoose = require("mongoose")
 router.get("", (req, res, next) => {
-    ProductS.find()
-        .exec()
+    ProductS.find()  //To get all data
+        .select("_id name phone")
+        .exec()//Execute
         .then(docs => {
             console.log(docs)
             if (docs.length > 0) {
                 res.status(200).json({
                     "status": 200,
-                    "data": docs
+                    "count": docs.length,
+                    "data": docs.map(doc=>{
+                        return {
+                            "_id": doc._id,
+                            "name": doc.name,
+                            "phone": doc.phone,
+                            "request": {
+                                "type": "GET",
+                                "url": "http://localhost:3000/products/"+doc._id
+                            }
+                        }
+                    })
                 })
             } else {
                 res.status(404).json({
@@ -37,7 +49,7 @@ router.post("", (req, res, next) => {
         console.log(result)
         res.status(250).json({
             "status": 250,
-            "message": "Handling Post Requests to /products",
+            "message": "Created Product Successfully",
             "data": result
         })
     }).catch(err => {
