@@ -1,30 +1,37 @@
 const express = require("express")
 const router = express.Router()
-
+const mongoose = require("mongoose")
+const orderS = require("../models/orders")
 //Handle Simple GET Request
 router.get("", (req, res) => {
-    res.status(200).json({
-        orders: "Orders mila ya nhii?? Maine to bhej diya🤔"
+    orderS.find().exec().then(docs => {
+        res.status(200).json(docs)
+    }).catch(error => {
+        res.status(300).json({
+            orders: "Orders mila ya nhii?? Maine to bhej diya🤔",
+            "message": error.message
+        })
     })
+
 })
 
 //Handle Simple POST Request
 router.post("", (req, res, next) => {
-    const order = {
-        id: req.body.productId,
+    const order = new orderS({
+        _id: new mongoose.Types.ObjectId(),
+        product: req.body.productId,
         quantity: req.body.quantity
-    }
-    if (req.body.productId) {
-        res.status(200).json({
-            orders: "Order Created",
-            data: order
+    })
+    order.save().then(result => {
+            console.log(result)
+            res.status(200).json(result)
+        }
+    ).catch(error => {
+        res.status(400).json({
+            "status": 400,
+            "data": error.message
         })
-    }else {
-        res.status(300).json({
-            "status": 300,
-            "message": "Product Id, Not Present"
-        })
-    }
+    })
 })
 
 //Handle GET Request with "orderId"(attached to URL)
