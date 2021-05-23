@@ -2,7 +2,10 @@ const express = require("express")
 const router = express.Router()
 const ProductS = require("../models/products")
 const mongoose = require("mongoose")
-router.get("", (req, res, next) => {
+const checkAuth = require("../middleware/check-auth")
+
+
+router.get("", checkAuth, (req, res, next) => {
     ProductS.find()  //To get all data
         .select("_id name phone")
         .exec()//Execute
@@ -12,14 +15,14 @@ router.get("", (req, res, next) => {
                 res.status(200).json({
                     "status": 200,
                     "count": docs.length,
-                    "data": docs.map(doc=>{
+                    "data": docs.map(doc => {
                         return {
                             "_id": doc._id,
                             "name": doc.name,
                             "phone": doc.phone,
                             "request": {
                                 "type": "GET",
-                                "url": "http://localhost:3000/products/"+doc._id
+                                "url": "http://localhost:3000/products/" + doc._id
                             }
                         }
                     })
@@ -39,7 +42,8 @@ router.get("", (req, res, next) => {
             })
         })
 })
-router.post("", (req, res, next) => {
+router.post("", checkAuth, (req, res, next) => {
+    // checkAuth(req,res,next)
     const product = new ProductS({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -61,7 +65,7 @@ router.post("", (req, res, next) => {
     })
 })
 
-router.delete("", (req, res, next) => {
+router.delete("", checkAuth, (req, res, next) => {
     ProductS.deleteMany().exec()
         .then(result => {
             res.status(200).json({
@@ -115,7 +119,7 @@ router.get("/:productId", (req, res, next) => {
     */
 })
 
-router.patch("/:productId", (req, res, next) => {
+router.patch("/:productId", checkAuth, (req, res, next) => {
     const pId = req.params.productId;
     const updateOps = {}
     try {
@@ -141,7 +145,7 @@ router.patch("/:productId", (req, res, next) => {
 
                 })
             })
-    }catch (error){
+    } catch (error) {
         res.status(400).json({
             "status": 400,
             "message": error.message
@@ -150,7 +154,7 @@ router.patch("/:productId", (req, res, next) => {
 
 })
 
-router.delete("/:productId", (req, res, next) => {
+router.delete("/:productId", checkAuth, (req, res, next) => {
     const id = req.params.productId
     ProductS.deleteMany({
         _id: id

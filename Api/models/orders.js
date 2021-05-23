@@ -5,4 +5,4 @@ const orderSchema = mongoose.Schema({
     quantity: {type: Number, default: 1}
 })
 
-module.exports = mongoose.model("Order",orderSchema)
+module.exports = mongoose.model("Order", orderSchema)

@@ -7,10 +7,12 @@ const mongoose = require("mongoose")
 //Routes to handle requests
 const productsRoute = require("./Api/routes/products");
 const ordersRoute = require("./Api/routes/orders");
-// const pass = "apistorm"
+const userRoute = require("./Api/routes/user");
+const pass = "apistorm"
 mongoose.connect("mongodb+srv://Storm:"+process.env.mongoPass+"@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 })
 
 app.use(mor("dev"))
@@ -28,8 +30,10 @@ app.use((req, res, next) => {
 })
 
 //Transferring Requests to Respective Routes
-app.use("/products", productsRoute)
-app.use("/orders", ordersRoute)
+app.use("/api/products", productsRoute)
+app.use("/api/orders", ordersRoute)
+app.use("/api/user", userRoute)
+
 
 app.use((req, res, next) => {
     const error = new Error("Incorrect API Point")

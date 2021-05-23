@@ -1,5 +1,6 @@
 {
   "env": {
-    "mongoPass": "apistorm"
+    "mongoPass": "apistorm",
+    "jwtKey": "ayustark"
   }
 }
