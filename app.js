@@ -28,10 +28,15 @@ con.query(sql, (err, result) => {
     console.log("Result: " + result);
 })*/
 
-mongoose.connect("mongodb+srv://Storm:"+process.env.mongoPass+"@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://Storm:" + process.env.mongoPass + "@mongo.yjmso.mongodb.net/firstDB?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
+}).then( r =>{
+    console.log("Mongoose Connected", r)
+    }
+).catch(error => {
+    console.error("Mongoose Error: " + error)
 })
 
 app.use(mor("dev"))
